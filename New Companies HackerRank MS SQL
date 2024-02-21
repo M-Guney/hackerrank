@@ -1,0 +1,39 @@
+
+SELECT distinct C.company_code, C.founder,
+COUNT(distinct L.lead_manager_code),
+COUNT(distinct S.senior_manager_code),
+COUNT(distinct M.manager_code),
+COUNT(distinct E.employee_code)
+
+FROM Company C
+
+INNER JOIN Lead_Manager L ON L.company_code = C.company_code
+
+INNER JOIN Senior_Manager S ON S.company_code = C.company_code
+    AND S.lead_manager_code = L.lead_manager_code
+    
+INNER JOIN Manager M ON M.company_code = C.company_code
+    AND M.lead_manager_code = L.lead_manager_code
+    AND M.senior_manager_code = S.senior_manager_code
+
+INNER JOIN Employee E ON E.company_code = C.company_code
+    AND E.lead_manager_code = L.lead_manager_code
+    AND E.senior_manager_code = S.senior_manager_code
+    AND E.manager_code = M.manager_code
+    
+    
+Group by C.company_code, C.founder
+ORDER BY C.company_code;
+
+/* In this question you have to check for example employee_code is real 
+      for thah I make this part
+{
+    E.company_code = C.company_code
+    AND E.lead_manager_code = L.lead_manager_code
+    AND E.senior_manager_code = S.senior_manager_code
+    AND E.manager_code = M.manager_code
+}
+NOTE = If you COUNT something on SELECT part and you have another thing you didint count you have to group them.
+{    Group by C.company_code, C.founder }
+          "When using the COUNT function in the SELECT part of a query and including another column that is not being counted, it is necessary to include that non-counted column in the GROUP BY clause."
+*/

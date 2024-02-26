@@ -1,0 +1,17 @@
+SELECT S.Name,G.Grade,S.Marks
+FROM Students S 
+JOIN 
+    Grades G ON S.Marks <= G.Max_Mark and S.Marks >= G.Min_Mark
+WHERE G.Grade >= 8 
+ORDER BY G.Grade DESC, S.Name ASC;
+/* The report must be in descending order by grade -- i.e. higher grades are entered first. If there is more than one student with the same grade (8-10)*/
+
+SELECT 'NULL' as Name,G.Grade,S.Marks
+FROM Students S 
+JOIN 
+    Grades G ON S.Marks <= G.Max_Mark and S.Marks >= G.Min_Mark
+WHERE G.Grade < 8 
+ORDER BY G.Grade DESC, Marks ASC;
+
+/*Finally, if the grade is lower than 8, use "NULL" as their name and list them by their grades in descending order. 
+If there is more than one student with the same grade (1-7) assigned to them, order those particular students by their marks in ascending order.*/

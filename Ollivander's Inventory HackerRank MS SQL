@@ -1,0 +1,16 @@
+SELECT w.id, p.age, w.coins_needed, w.power 
+FROM Wands w
+INNER JOIN Wands_Property p ON p.code = w.code
+WHERE p.is_evil = 0
+AND EXISTS (
+    SELECT 1
+    FROM (
+        SELECT code, power, MIN(coins_needed) AS min_coins
+        FROM Wands
+        GROUP BY code, power
+    ) AS subquery
+    WHERE w.code = subquery.code
+    AND w.power = subquery.power
+    AND w.coins_needed = subquery.min_coins
+)
+ORDER BY w.power DESC, p.age DESC;
